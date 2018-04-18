@@ -1,0 +1,40 @@
+{
+  "name": "acs-client",
+  "version": "1.0.0",
+  "description": "ACS Engine Client",
+  "scripts": {
+    "build": "tsc",
+    "watch": "tsc -w",
+    "lint": "tslint -c tslint.json -p tsconfig.json",
+    "start": "npm run build && electron ./dist/main.js",
+    "dev": "concurrently 'yarn start' 'yarn watch'"
+  },
+  "repository": "https://github.com/electron/electron-quick-start-typescript",
+  "keywords": ["Electron", "quick", "start", "tutorial", "demo", "typescript"],
+  "author": "GitHub",
+  "license": "CC0-1.0",
+  "devDependencies": {
+    "@types/highlight.js": "^9.12.2",
+    "@types/react": "^16.3.11",
+    "@types/react-dom": "^16.0.5",
+    "@types/reactstrap": "^5.0.21",
+    "concurrently": "^3.5.1",
+    "electron": "^2.0.0-beta.7",
+    "prettier": "^1.12.0",
+    "tslint": "^5.9.1",
+    "tslint-config-prettier": "^1.10.0",
+    "typescript": "^2.8.1"
+  },
+  "dependencies": {
+    "bootstrap": "^4.1.0",
+    "highlight.js": "^9.12.0",
+    "immutable": "^4.0.0-rc.9",
+    "react": "^16.3.2",
+    "react-dom": "^16.3.2",
+    "reactstrap": "^5.0.0"
+  },
+  "prettier": {
+    "printWidth": 100,
+    "trailingComma": "all"
+  }
+}
