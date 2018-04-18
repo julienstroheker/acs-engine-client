@@ -5,19 +5,19 @@
   "scripts": {
     "build": "tsc",
     "watch": "tsc -w",
-    "lint": "tslint -c tslint.json -p tsconfig.json",
+    "lint": "tslint -p tsconfig.json",
     "start": "npm run build && electron ./dist/main.js",
     "dev": "concurrently 'yarn start' 'yarn watch'",
     "precommit": "lint-staged",
     "prettier": "prettier --write 'src/**/*.{ts,tsx,css}'",
-    "lint-fix": "tslint -c ./tslint.ci.json --fix 'src/**/*.{ts,tsx}'"
+    "lint-fix": "tslint --fix 'src/**/*.{ts,tsx}'"
   },
   "lint-staged": {
-    "*.{ts,tsx}": ["tslint -c ./tslint.ci.json --fix", "prettier --write", "git add"],
+    "*.{ts,tsx}": ["tslint --fix", "prettier --write", "git add"],
     "*.{js,json,css,md}": ["prettier --write", "git add"]
   },
-  "repository": "https://github.com/electron/electron-quick-start-typescript",
-  "keywords": ["Electron", "quick", "start", "tutorial", "demo", "typescript"],
+  "repository": "https://github.com/julienstroheker/acs-engine-client",
+  "keywords": ["ACS", "Engine", "Electron", "typescript", "react"],
   "author": "GitHub",
   "license": "CC0-1.0",
   "devDependencies": {
