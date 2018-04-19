@@ -49,19 +49,16 @@ export const ACSClusterDefinitionForm = (props: IACSClusterDefinitionForm) => {
         />
       </FormGroup>
       <h4>Properties</h4>
-      {Object.keys(properties).map(key => {
-        const value = properties[key];
-        return (
-          <div className={`ACSClusterDefinitionForm__${key}`} key={key}>
-            <Label for={key}>{key}</Label>
-            <FormGroupGenerator
-              formGroup={value}
-              keyPath={["properties", key]}
-              updateProperty={update}
-            />
-          </div>
-        );
-      })}
+      {Object.entries(properties).map(([key, value]) => (
+        <div className={`ACSClusterDefinitionForm__${key}`} key={key}>
+          <Label for={key}>{key}</Label>
+          <FormGroupGenerator
+            formGroup={value}
+            keyPath={["properties", key]}
+            updateProperty={update}
+          />
+        </div>
+      ))}
     </div>
   );
 };
@@ -81,9 +78,7 @@ const FormGroupGenerator = (props: IFormGroupGeneratorProps): JSX.Element => {
 
   return (
     <span>
-      {Object.keys(formGroup).map(key => {
-        const value = (formGroup as any)[key];
-
+      {Object.entries(formGroup).map(([key, value]) => {
         if (typeof value === "string") {
           return (
             <FormGroup style={{ marginLeft }} key={key}>
