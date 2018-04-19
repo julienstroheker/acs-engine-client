@@ -1,6 +1,6 @@
 {
-  "name": "acs-client",
-  "version": "1.0.0",
+  "name": "acs-engine-client",
+  "version": "0.0.1",
   "description": "ACS Engine Client",
   "scripts": {
     "build": "tsc",
@@ -18,8 +18,11 @@
   },
   "repository": "https://github.com/julienstroheker/acs-engine-client",
   "keywords": ["ACS", "Engine", "Electron", "typescript", "react"],
-  "author": "GitHub",
-  "license": "CC0-1.0",
+  "contributors": [
+    "Evan Louie <evan.louie@microsoft.com> (https://evanlouie.com)",
+    "Julien Stroheker <juliens@microsoft.com> (http://me.jstroheker.com)"
+  ],
+  "license": "MIT",
   "devDependencies": {
     "@types/highlight.js": "^9.12.2",
     "@types/react": "^16.3.11",
