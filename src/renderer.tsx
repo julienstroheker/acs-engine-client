@@ -12,7 +12,7 @@ import {
 import { StdOut } from "./components/StdOut";
 import { Context } from "./contexts";
 import { ClusterDefinitionContext } from "./contexts/ClusterDefinitionContext";
-import { StdOutContext } from "./contexts/StdOutContext";
+import { outable, StdOutContext } from "./contexts/StdOutContext";
 import { ACSEngine } from "./shared/ACSEngine";
 import { IProperties } from "./types";
 
@@ -28,7 +28,9 @@ class App extends React.PureComponent {
       <div className="App">
         <Context>
           <Navbar color="dark" dark expand="md" style={{ marginBottom: "1em" }}>
-            <NavbarBrand href="/">ACS Engine UI</NavbarBrand>
+            <NavbarBrand>
+              <span style={{ color: "white" }}>ACS Engine Client</span>
+            </NavbarBrand>
           </Navbar>
           <Container fluid>
             <Row>
@@ -66,13 +68,17 @@ class App extends React.PureComponent {
                       />
                     </Col>,
                     <Col md={4} key="json">
-                      {ACSClusterDefinitionFormJSON(clusterDefinition)}
+                      <ACSClusterDefinitionFormJSON clusterDefinition={clusterDefinition} />
                     </Col>,
                   ];
                 }}
               </ClusterDefinitionContext.Consumer>
               <StdOutContext.Consumer>
-                {state => <Col md={4}>{StdOut(state.stdout)}</Col>}
+                {state => (
+                  <Col md={4}>
+                    <StdOut stdout={state.stdout} />
+                  </Col>
+                )}
               </StdOutContext.Consumer>
             </Row>
           </Container>
@@ -81,21 +87,25 @@ class App extends React.PureComponent {
     );
   }
 
-  private clearStdOut = (update: (stdout: string) => Promise<any>) => async () => {
+  private clearStdOut = (update: outable) => async () => {
     return update("");
   };
 
-  private checkACSEngine = (log: (out: string) => Promise<any>) => async () => {
+  private checkACSEngine = (log: outable) => async () => {
     await log(`Checking for 'acs-engine' in ${ACSEngine.getACSEnginePath()}`);
     const isInstalled = await ACSEngine.acsIsInstalled();
     await log(`Packaged acs-engine executable by electron process: ${isInstalled}\n`);
     if (isInstalled) {
       const version = await ACSEngine.getVersion();
       await log(`ACS Engine Version: ${version}`);
+    } else {
+      await log(
+        `Error: acs-engine binary either not in project /lib folder or is not executable by electron process.`,
+      );
     }
   };
 
-  private callACSEngine = (log: (out: string) => Promise<any>) => async () => {
+  private callACSEngine = (log: outable) => async () => {
     const stdout = await ACSEngine.call();
     return log(stdout);
   };

@@ -11,7 +11,11 @@ export interface IACSClusterDefinitionForm {
   update: (keyPath: string[], value: any) => Promise<any>;
 }
 
-export const ACSClusterDefinitionFormJSON = (clusterDefinition: IClusterDefinition) => {
+interface IACSClusterDefinitionFormJSON {
+  clusterDefinition: IClusterDefinition;
+}
+export const ACSClusterDefinitionFormJSON = (props: IACSClusterDefinitionFormJSON) => {
+  const { clusterDefinition } = props;
   return (
     <div className="JSON">
       <h3>JSON</h3>
@@ -50,7 +54,11 @@ export const ACSClusterDefinitionForm = (props: IACSClusterDefinitionForm) => {
         return (
           <div className={`ACSClusterDefinitionForm__${key}`} key={key}>
             <Label for={key}>{key}</Label>
-            {generateFormGroup(value, ["properties", key], update)}
+            <FormGroupGenerator
+              formGroup={value}
+              keyPath={["properties", key]}
+              updateProperty={update}
+            />
           </div>
         );
       })}
@@ -58,65 +66,81 @@ export const ACSClusterDefinitionForm = (props: IACSClusterDefinitionForm) => {
   );
 };
 
-const generateFormGroup = (
-  formGroup: any,
-  keyPath: string[],
-  updateProperty: (path: string[], value: any) => any,
-): JSX.Element[] => {
+interface IFormGroupGeneratorProps {
+  formGroup: any;
+  keyPath: string[];
+  updateProperty: (path: string[], value: any) => any;
+}
+const FormGroupGenerator = (props: IFormGroupGeneratorProps): JSX.Element => {
+  const { formGroup, keyPath, updateProperty } = props;
+
   if (typeof formGroup === "undefined") {
-    return [<div className="undefined" />];
+    return <div className="undefined" />;
   }
   const marginLeft = `${keyPath.length * 0.5}em`;
 
-  return Object.keys(formGroup).map(key => {
-    const value = (formGroup as any)[key];
+  return (
+    <span>
+      {Object.keys(formGroup).map(key => {
+        const value = (formGroup as any)[key];
 
-    if (typeof value === "string") {
-      return (
-        <FormGroup style={{ marginLeft }} key={key}>
-          <Label for={key}>{key}:</Label>
-          <Input
-            bsSize="sm"
-            type="text"
-            name={key}
-            id={key}
-            value={value}
-            onChange={e => updateProperty([...keyPath, key], e.target.value)}
-          />
-        </FormGroup>
-      );
-    } else if (typeof value === "number") {
-      return (
-        <FormGroup style={{ marginLeft }} key={key}>
-          <Label for={key}>{key}:</Label>
-          <Input
-            bsSize="sm"
-            type="number"
-            name={key}
-            id={key}
-            value={value}
-            onChange={e => updateProperty([...keyPath, key], Number.parseInt(e.target.value))}
-          />
-        </FormGroup>
-      );
-    } else if (Array.isArray(value)) {
-      return (
-        <FormGroup style={{ marginLeft }} key={key}>
-          <Label for={key}>{key}:</Label>
-          {value.map((val, index) =>
-            generateFormGroup(val, [...keyPath, key, index.toString()], updateProperty),
-          )}
-        </FormGroup>
-      );
-    } else if (typeof value === "object") {
-      return (
-        <FormGroup style={{ marginLeft }} key={key}>
-          <Label for={key}>{key}:</Label>
-          {generateFormGroup(value, [...keyPath, key], updateProperty)}
-        </FormGroup>
-      );
-    }
+        if (typeof value === "string") {
+          return (
+            <FormGroup style={{ marginLeft }} key={key}>
+              <Label for={key}>{key}:</Label>
+              <Input
+                bsSize="sm"
+                type="text"
+                name={key}
+                id={key}
+                value={value}
+                onChange={e => updateProperty([...keyPath, key], e.target.value)}
+              />
+            </FormGroup>
+          );
+        } else if (typeof value === "number") {
+          return (
+            <FormGroup style={{ marginLeft }} key={key}>
+              <Label for={key}>{key}:</Label>
+              <Input
+                bsSize="sm"
+                type="number"
+                name={key}
+                id={key}
+                value={value}
+                onChange={e => updateProperty([...keyPath, key], Number.parseInt(e.target.value))}
+              />
+            </FormGroup>
+          );
+        } else if (Array.isArray(value)) {
+          return (
+            <FormGroup style={{ marginLeft }} key={key}>
+              <Label for={key}>{key}:</Label>
+              {value.map((val, index) => (
+                <FormGroupGenerator
+                  key={index}
+                  formGroup={val}
+                  keyPath={[...keyPath, key, index.toString()]}
+                  updateProperty={updateProperty}
+                />
+              ))}
+            </FormGroup>
+          );
+        } else if (typeof value === "object") {
+          return (
+            <FormGroup style={{ marginLeft }} key={key}>
+              <Label for={key}>{key}:</Label>
+              <FormGroupGenerator
+                formGroup={value}
+                keyPath={[...keyPath, key]}
+                updateProperty={updateProperty}
+              />
+            </FormGroup>
+          );
+        }
 
-    return <div className="not-found">Type for {value} not found</div>;
-  });
+        return <div className="not-found">Type for {value} not found</div>;
+      })}
+    </span>
+  );
 };

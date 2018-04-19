@@ -1,6 +1,6 @@
 import * as React from "react";
 
-export const StdOut = (stdout: string) => (
+export const StdOut = ({ stdout }: { stdout: string }) => (
   <div className="StdOut">
     <h3>stdout</h3>
     <pre>
