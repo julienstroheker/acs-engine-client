@@ -1,13 +1,15 @@
 import * as React from "react";
 
+export type outable = (value: string) => Promise<any>;
+
 interface IProps {
   onMount?: () => Promise<any>;
 }
 
 interface IState {
-  log: (value: string) => Promise<any>;
+  log: outable;
   stdout: string;
-  update: (value: string) => Promise<any>;
+  update: outable;
 }
 
 export class StdOutContext extends React.Component<IProps, IState> {
