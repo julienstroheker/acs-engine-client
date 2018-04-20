@@ -53,7 +53,7 @@ jobs:
           at: ~/repo
       - run:
           name: Test TypeScript code
-          command: yarn test:cover
+          command: yarn test
       - persist_to_workspace:
           root: ~/repo
           <<: *whitelist
