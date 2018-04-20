@@ -10,7 +10,8 @@
     "dev": "concurrently 'yarn start' 'yarn watch'",
     "precommit": "lint-staged",
     "prettier": "prettier --write 'src/**/*.{ts,tsx,css}'",
-    "lint-fix": "tslint --fix 'src/**/*.{ts,tsx}'"
+    "lint-fix": "tslint --fix 'src/**/*.{ts,tsx}'",
+    "test": "jest"
   },
   "lint-staged": {
     "*.{ts,tsx}": ["tslint --fix", "prettier --write", "git add"],
@@ -25,12 +26,14 @@
   "license": "MIT",
   "devDependencies": {
     "@types/highlight.js": "^9.12.2",
+    "@types/jest": "^22.2.3",
     "@types/react": "^16.3.11",
     "@types/react-dom": "^16.0.5",
     "@types/reactstrap": "^5.0.21",
     "concurrently": "^3.5.1",
     "electron": "^2.0.0-beta.7",
     "husky": "^0.14.3",
+    "jest": "^22.4.3",
     "lint-staged": "^7.0.4",
     "prettier": "^1.12.1",
     "tslint": "^5.9.1",
@@ -48,5 +51,12 @@
   "prettier": {
     "printWidth": 100,
     "trailingComma": "all"
+  },
+  "jest": {
+    "moduleFileExtensions": ["ts", "tsx", "js"],
+    "transform": {
+      "^.+\\.(ts|tsx)$": "<rootDir>/preprocessor.js"
+    },
+    "testMatch": ["**/src/**.test.ts"]
   }
 }
