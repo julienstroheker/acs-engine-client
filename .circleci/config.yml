@@ -10,13 +10,13 @@ whitelist: &whitelist
     - dist/*
     - node_modules/*
     - src/*
-    - test/*
-    - CODE_OF_CONDUCT.md
     - LICENSE.md
     - package.json
     - README.md
     - tsconfig.json
     - tslint.json
+    - preprocessor.js
+    - tsconfig.test.json
 version: 2
 jobs:
   checkout:
