@@ -8,14 +8,7 @@ interface IClusterDefinitionContextState {
 }
 
 export class ClusterDefinitionContext extends React.Component<any, IClusterDefinitionContextState> {
-  private static Context = React.createContext<IClusterDefinitionContextState>();
-
-  public static get Consumer(): React.Consumer<IClusterDefinitionContextState> {
-    // DANGEROUS: assume that top App is contains the top level provider
-    return this.Context.Consumer as React.Consumer<IClusterDefinitionContextState>;
-  }
-
-  public state: IClusterDefinitionContextState = {
+  private static defaultState: IClusterDefinitionContextState = {
     // tslint:disable
     clusterDefinition: Map({
       apiVersion: "vlabs",
@@ -61,6 +54,24 @@ export class ClusterDefinitionContext extends React.Component<any, IClusterDefin
       },
     }),
     // tslint:enable
+    update: () => Promise.reject(new Error("update() not set in react instance state")),
+  };
+
+  private static _context: React.Context<IClusterDefinitionContextState>;
+  private static get Context() {
+    if (!this._context) {
+      this._context = React.createContext<IClusterDefinitionContextState>(this.defaultState);
+    }
+    return this._context;
+  }
+
+  public static get Consumer(): React.Consumer<IClusterDefinitionContextState> {
+    // DANGEROUS: assume that top App is contains the top level provider
+    return this.Context.Consumer as React.Consumer<IClusterDefinitionContextState>;
+  }
+
+  public state: IClusterDefinitionContextState = {
+    ...ClusterDefinitionContext.defaultState,
     update: async (keyPath: string[], value: any) => {
       console.log(keyPath, value);
       return new Promise(resolve =>

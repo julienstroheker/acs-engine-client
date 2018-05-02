@@ -1,10 +1,6 @@
-import * as React from "react";
+import React from "react";
 
 export type outable = (value: string) => Promise<any>;
-
-interface IProps {
-  onMount?: () => Promise<any>;
-}
 
 interface IState {
   log: outable;
@@ -12,8 +8,20 @@ interface IState {
   update: outable;
 }
 
-export class StdOutContext extends React.Component<IProps, IState> {
-  private static Context = React.createContext<IState>();
+export class StdOutContext extends React.Component<any, IState> {
+  private static defaultState = {
+    log: () => Promise.reject(new Error("log() not defined on react instance.")),
+    stdout: "",
+    update: () => Promise.reject(new Error("update() not defined on react instance")),
+  };
+
+  private static _context: React.Context<IState>;
+  private static get Context() {
+    if (!this._context) {
+      this._context = React.createContext<IState>(this.defaultState);
+    }
+    return this._context;
+  }
 
   public static get Consumer() {
     return this.Context.Consumer as React.Consumer<IState>;
