@@ -1,16 +1,16 @@
-import { Map } from "immutable";
 import * as React from "react";
-import { IProperties } from "../types";
+import { IClusterDefinition } from "../types";
 
-interface IClusterDefinitionContextState {
-  clusterDefinition: Map<string, string | IProperties>;
-  update: (keyPath: string[], value: any) => Promise<any>;
+export interface IClusterDefinitionContextState {
+  // clusterDefinition: Map<string, string | IProperties>;
+  clusterDefinition: IClusterDefinition;
+  update: (clusterDefinition: IClusterDefinition) => Promise<any>;
 }
 
 export class ClusterDefinitionContext extends React.Component<any, IClusterDefinitionContextState> {
   private static defaultState: IClusterDefinitionContextState = {
     // tslint:disable
-    clusterDefinition: Map({
+    clusterDefinition: {
       apiVersion: "vlabs",
       properties: {
         orchestratorProfile: {
@@ -52,12 +52,13 @@ export class ClusterDefinitionContext extends React.Component<any, IClusterDefin
           secret: "",
         },
       },
-    }),
+    },
     // tslint:enable
     update: () => Promise.reject(new Error("update() not set in react instance state")),
   };
 
   private static _context: React.Context<IClusterDefinitionContextState>;
+
   private static get Context() {
     if (!this._context) {
       this._context = React.createContext<IClusterDefinitionContextState>(this.defaultState);
@@ -72,13 +73,10 @@ export class ClusterDefinitionContext extends React.Component<any, IClusterDefin
 
   public state: IClusterDefinitionContextState = {
     ...ClusterDefinitionContext.defaultState,
-    update: async (keyPath: string[], value: any) => {
-      console.log(keyPath, value);
+    update: async clusterDefinition => {
+      console.log(clusterDefinition);
       return new Promise(resolve =>
-        this.setState(
-          { clusterDefinition: this.state.clusterDefinition.setIn(keyPath, value) },
-          () => resolve(value),
-        ),
+        this.setState({ clusterDefinition }, () => resolve(clusterDefinition)),
       );
     },
   };
