@@ -26,7 +26,7 @@ class App extends React.PureComponent {
       <div className="App">
         <Context>
           <CssBaseline />
-          <AppBar position="static">
+          <AppBar position="sticky">
             <Toolbar>ACS-Engine Client</Toolbar>
           </AppBar>
           <Grid container style={{ padding: "1em" }}>
