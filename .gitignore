@@ -1,8 +1,10 @@
 .DS_Store
 .vscode
+.idea
 dist
 node_modules
 acs-engine
+*.bak
 
 # Logs
 logs

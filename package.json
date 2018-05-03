@@ -27,6 +27,7 @@
   "devDependencies": {
     "@types/highlight.js": "^9.12.2",
     "@types/jest": "^22.2.3",
+    "@types/json-schema": "^6.0.1",
     "@types/react": "^16.3.13",
     "@types/react-dom": "^16.0.5",
     "@types/react-jsonschema-form": "^1.0.4",
@@ -41,11 +42,14 @@
     "typescript": "^2.8.3"
   },
   "dependencies": {
+    "@material-ui/icons": "^1.0.0-beta.43",
     "@types/jest": "^22.2.3",
-    "bootstrap": "^4.1.1",
+    "bootstrap": "^3.0.0",
     "electron": "^2.0.0",
     "highlight.js": "^9.12.0",
     "immutable": "^4.0.0-rc.9",
+    "json-schema": "^0.2.3",
+    "material-ui": "^1.0.0-beta.44",
     "react": "^16.3.2",
     "react-dom": "^16.3.2",
     "react-jsonschema-form": "^1.0.3",

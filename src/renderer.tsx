@@ -1,10 +1,9 @@
 // This file is required by the index.html file and will
 // be executed in the renderer process for that window.
 // All of the Node.js APIs are available in this process.
+import { AppBar, Button, Grid, Toolbar } from "material-ui";
 import * as React from "react";
 import * as ReactDOM from "react-dom";
-import { Button, Col, Container, Navbar, NavbarBrand, Row } from "reactstrap";
-
 import {
   ACSClusterDefinitionForm,
   ACSClusterDefinitionFormJSON,
@@ -14,7 +13,6 @@ import { Context } from "./contexts";
 import { ClusterDefinitionContext } from "./contexts/ClusterDefinitionContext";
 import { outable, StdOutContext } from "./contexts/StdOutContext";
 import { ACSEngine } from "./shared/ACSEngine";
-import { IProperties } from "./types";
 
 class App extends React.PureComponent {
   private checkAcsEngineButtonRef = React.createRef<HTMLButtonElement>();
@@ -27,61 +25,71 @@ class App extends React.PureComponent {
     return (
       <div className="App">
         <Context>
-          <Navbar color="dark" dark expand="md" style={{ marginBottom: "1em" }}>
-            <NavbarBrand>
-              <span style={{ color: "white" }}>ACS Engine Client</span>
-            </NavbarBrand>
-          </Navbar>
-          <Container fluid>
-            <Row>
+          <AppBar position="static">
+            <Toolbar>ACS-Engine Client</Toolbar>
+          </AppBar>
+          <Grid container style={{ padding: "1em" }}>
+            <Grid item>
               <StdOutContext.Consumer>
                 {state => (
-                  <Col>
-                    <span
-                      ref={this.checkAcsEngineButtonRef}
-                      onClick={this.checkACSEngine(state.log)}
-                    >
-                      <Button color="primary">Check for ACS-Engine</Button>
-                    </span>
-                    <Button color="info" onClick={this.callACSEngine(state.log)}>
-                      Run ACS Engine
-                    </Button>
-                    <Button color="secondary" onClick={this.clearStdOut(state.update)}>
-                      Clear stdout
-                    </Button>
-                  </Col>
+                  <Grid container spacing={8}>
+                    <Grid item>
+                      <span
+                        ref={this.checkAcsEngineButtonRef}
+                        onClick={this.checkACSEngine(state.log)}
+                      >
+                        <Button variant="raised" color="primary">
+                          Check for ACS-Engine
+                        </Button>
+                      </span>
+                    </Grid>
+                    <Grid item>
+                      <Button variant="raised" onClick={this.callACSEngine(state.log)}>
+                        Run ACS Engine
+                      </Button>
+                    </Grid>
+                    <Grid item>
+                      <Button
+                        variant="raised"
+                        color="secondary"
+                        onClick={this.clearStdOut(state.update)}
+                      >
+                        Clear stdout
+                      </Button>
+                    </Grid>
+                  </Grid>
                 )}
               </StdOutContext.Consumer>
-            </Row>
-            <Row>
+            </Grid>
+            <Grid container spacing={16}>
               <ClusterDefinitionContext.Consumer>
                 {state => {
                   const clusterDefinition = {
-                    apiVersion: state.clusterDefinition.get("apiVersion") as string,
-                    properties: state.clusterDefinition.get("properties") as IProperties,
+                    apiVersion: state.clusterDefinition.apiVersion,
+                    properties: state.clusterDefinition.properties,
                   };
                   return [
-                    <Col md={4} key="form">
+                    <Grid item md={4} key="form">
                       <ACSClusterDefinitionForm
                         clusterDefinition={clusterDefinition}
                         update={state.update}
                       />
-                    </Col>,
-                    <Col md={4} key="json">
+                    </Grid>,
+                    <Grid item md={4} key="json">
                       <ACSClusterDefinitionFormJSON clusterDefinition={clusterDefinition} />
-                    </Col>,
+                    </Grid>,
                   ];
                 }}
               </ClusterDefinitionContext.Consumer>
               <StdOutContext.Consumer>
                 {state => (
-                  <Col md={4}>
+                  <Grid item md={4}>
                     <StdOut stdout={state.stdout} />
-                  </Col>
+                  </Grid>
                 )}
               </StdOutContext.Consumer>
-            </Row>
-          </Container>
+            </Grid>
+          </Grid>
         </Context>
       </div>
     );
