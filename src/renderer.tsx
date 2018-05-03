@@ -1,7 +1,7 @@
 // This file is required by the index.html file and will
 // be executed in the renderer process for that window.
 // All of the Node.js APIs are available in this process.
-import { AppBar, Button, Grid, Toolbar } from "material-ui";
+import { AppBar, Button, CssBaseline, Grid, Toolbar } from "material-ui";
 import * as React from "react";
 import * as ReactDOM from "react-dom";
 import {
@@ -25,6 +25,7 @@ class App extends React.PureComponent {
     return (
       <div className="App">
         <Context>
+          <CssBaseline />
           <AppBar position="static">
             <Toolbar>ACS-Engine Client</Toolbar>
           </AppBar>

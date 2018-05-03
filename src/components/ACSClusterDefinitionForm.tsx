@@ -784,7 +784,6 @@ interface IACSClusterDefinitionForm {
 }
 
 class ClusterModelForm extends Form<IClusterDefinition> {}
-
 export const ACSClusterDefinitionForm = (props: IACSClusterDefinitionForm) => {
   const { clusterDefinition, update } = props;
 
