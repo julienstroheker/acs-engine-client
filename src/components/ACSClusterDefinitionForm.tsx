@@ -2,7 +2,7 @@ import hljs from "highlight.js";
 import { JSONSchema6 } from "json-schema";
 import React from "react";
 import Form from "react-jsonschema-form";
-import { Util } from "../shared/util";
+import { Util } from "../shared/Util";
 import { IClusterDefinition } from "../types";
 
 /**
