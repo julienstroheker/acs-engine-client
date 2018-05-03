@@ -31,7 +31,6 @@
     "@types/react": "^16.3.13",
     "@types/react-dom": "^16.0.5",
     "@types/react-jsonschema-form": "^1.0.4",
-    "@types/reactstrap": "^5.0.23",
     "concurrently": "^3.5.1",
     "husky": "^0.14.3",
     "jest": "^22.4.3",
@@ -43,7 +42,6 @@
   },
   "dependencies": {
     "@material-ui/icons": "^1.0.0-beta.43",
-    "@types/jest": "^22.2.3",
     "bootstrap": "^3.0.0",
     "electron": "^2.0.0",
     "highlight.js": "^9.12.0",
@@ -52,8 +50,7 @@
     "material-ui": "^1.0.0-beta.44",
     "react": "^16.3.2",
     "react-dom": "^16.3.2",
-    "react-jsonschema-form": "^1.0.3",
-    "reactstrap": "^6.0.1"
+    "react-jsonschema-form": "^1.0.3"
   },
   "prettier": {
     "printWidth": 100,
